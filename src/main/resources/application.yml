@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: rememo
+  security:
+    oauth2:
+      resource-server:
+        jwt:
+          issuer-uri: ${REMEMO_ISSUER_URI:http://localhost:8181/realms/rememo}
+          jwk-set-uri: ${spring.security.oauth2.resource-server.jwt.issuer-uri}/protocol/openid-connect/certs
