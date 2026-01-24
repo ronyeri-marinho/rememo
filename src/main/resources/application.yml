@@ -7,3 +7,7 @@ spring:
         jwt:
           issuer-uri: ${REMEMO_ISSUER_URI:http://localhost:8181/realms/rememo}
           jwk-set-uri: ${spring.security.oauth2.resource-server.jwt.issuer-uri}/protocol/openid-connect/certs
+
+rememo:
+  security:
+    allowed-origins: ${UBOARD_ALLOWED_ORIGINS:http://localhost:4200,http://localhost:3000}
