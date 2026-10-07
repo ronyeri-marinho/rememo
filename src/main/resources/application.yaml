@@ -1,3 +1,22 @@
+server:
+  port: ${APP_PORT:8080}
 spring:
   application:
     name: rememo
+  datasource:
+    url: ${REMEMO_DATABASE_URL:jdbc:postgresql://localhost:5432/rememo}
+    username: ${REMEMO_DATABASE_USERNAME:postgres}
+    password: ${REMEMO_DATABASE_PASSWORD:root}
+  jpa:
+    show-sql: ${REMEMO_DATABASE_SHOW_SQL:false}
+    hibernate:
+      ddl-auto: ${REMEMO_DATABASE_DDL_AUTO:validate}
+    properties:
+      hibernate:
+        format_sql: ${REMEMO_DATABASE_FORMAT_SQL:false}
+  security:
+    oauth2:
+      resource-server:
+        jwt:
+          issuer-uri: ${APP_OAUTH2_JWK_ISSUER_URI:http://localhost:8181/realms/rememo}
+          jwk-set-uri: ${spring.security.oauth2.resource-server.jwt.issuer-uri}/protocol/openid-connect/certs
