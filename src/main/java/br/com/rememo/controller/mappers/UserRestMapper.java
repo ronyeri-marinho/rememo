@@ -1,8 +1,8 @@
 package br.com.rememo.controller.mappers;
 
+import br.com.rememo.application.user.transport.UserInSessionDTO;
 import br.com.rememo.controller.response.UserDetailsResponse;
-import br.com.rememo.domain.User;
-import br.com.rememo.application.transport.SessionUserDTO;
+import br.com.rememo.domain.user.User;
 import org.springframework.security.oauth2.jwt.Jwt;
 
 public class UserRestMapper {
@@ -10,8 +10,8 @@ public class UserRestMapper {
 
     }
 
-    public static SessionUserDTO toSessionUser(Jwt jwt) {
-        return new SessionUserDTO(
+    public static UserInSessionDTO toUserInSession(Jwt jwt) {
+        return new UserInSessionDTO(
                 jwt.getClaimAsString("sub"),
                 jwt.getClaimAsString("email"),
                 jwt.getClaimAsString("given_name"),

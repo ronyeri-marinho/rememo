@@ -1,8 +1,8 @@
-package br.com.rememo.application;
+package br.com.rememo.application.user;
 
-import br.com.rememo.application.transport.SessionUserDTO;
-import br.com.rememo.application.usecase.SynchronizeUserUseCase;
-import br.com.rememo.domain.User;
+import br.com.rememo.application.user.transport.UserInSessionDTO;
+import br.com.rememo.application.user.usecase.SynchronizeUserUseCase;
+import br.com.rememo.domain.user.User;
 import br.com.rememo.persistence.user.ports.UserRepositoryPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,8 +21,7 @@ public class SynchronizeUserService implements SynchronizeUserUseCase {
     }
 
     @Transactional
-    public User synchronizeUser(SessionUserDTO sessionUser) {
-        LOGGER.debug("Starting user sync...");
+    public User synchronizeUser(UserInSessionDTO sessionUser) {
         Optional<User> userAsOptional = this.userRepositoryPort
                 .findByIdentityProviderId(sessionUser.identityProviderId());
 
@@ -31,7 +30,7 @@ public class SynchronizeUserService implements SynchronizeUserUseCase {
                 this.updateCurrentUser(sessionUser, userAsOptional.get());
     }
 
-    private User create(SessionUserDTO sessionUser) {
+    private User create(UserInSessionDTO sessionUser) {
         User user = User.create(
                 sessionUser.identityProviderId(),
                 sessionUser.firstName(),
@@ -39,10 +38,17 @@ public class SynchronizeUserService implements SynchronizeUserUseCase {
                 sessionUser.email()
         );
 
-        return this.userRepositoryPort.save(user);
+        User newUser = this.userRepositoryPort.save(user);
+
+        LOGGER.debug(
+                "User created successfully. userId={}",
+                newUser.getUuid()
+        );
+
+        return newUser;
     }
 
-    private User updateCurrentUser(SessionUserDTO sessionUser, User user) {
+    private User updateCurrentUser(UserInSessionDTO sessionUser, User user) {
         boolean hasFirstNameChanged = user.updateFirstName(sessionUser.firstName());
         boolean hasLastNameChanged = user.updateLastName(sessionUser.lastName());
         boolean hasEmailChanged = user.updateEmail(sessionUser.email());

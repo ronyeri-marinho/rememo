@@ -1,6 +1,6 @@
 package br.com.rememo.persistence.user.mappers;
 
-import br.com.rememo.domain.User;
+import br.com.rememo.domain.user.User;
 import br.com.rememo.persistence.user.UserEntity;
 
 public class UserPersistenceMapper {
