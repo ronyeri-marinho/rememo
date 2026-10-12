@@ -1,4 +1,4 @@
-package br.com.rememo.domain;
+package br.com.rememo.domain.user;
 
 import java.time.LocalDateTime;
 import java.util.Objects;

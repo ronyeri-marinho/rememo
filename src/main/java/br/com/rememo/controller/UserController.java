@@ -2,7 +2,7 @@ package br.com.rememo.controller;
 
 import br.com.rememo.controller.mappers.UserRestMapper;
 import br.com.rememo.controller.response.UserDetailsResponse;
-import br.com.rememo.application.usecase.SynchronizeUserUseCase;
+import br.com.rememo.application.user.usecase.SynchronizeUserUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -25,7 +25,7 @@ public class UserController {
     public ResponseEntity<UserDetailsResponse> synchronizeUser(@AuthenticationPrincipal Jwt jwt,
                                                                UriComponentsBuilder uriComponentsBuilder) {
         UserDetailsResponse response = UserRestMapper
-                .toDetails(this.synchronizeUserUseCase.synchronizeUser(UserRestMapper.toSessionUser(jwt)));
+                .toDetails(this.synchronizeUserUseCase.synchronizeUser(UserRestMapper.toUserInSession(jwt)));
 
         return ResponseEntity.created(uriComponentsBuilder
                         .path("/users/{uuid}")
