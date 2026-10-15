@@ -10,17 +10,20 @@ public class Deck {
     private UUID uuid;
     private String name;
     private String description;
+    private String icon;
     private User user;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     public static Deck create(String name,
                               String description,
+                              String icon,
                               User user) {
         Deck deck = new Deck();
         deck.setUuid(UUID.randomUUID());
         deck.setName(name);
         deck.setDescription(description);
+        deck.setIcon(icon);
         deck.setUser(user);
         deck.setCreatedAt(LocalDateTime.now());
         deck.setUpdatedAt(LocalDateTime.now());
@@ -57,6 +60,14 @@ public class Deck {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public User getUser() {

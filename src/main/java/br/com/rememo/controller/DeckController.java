@@ -1,25 +1,55 @@
 package br.com.rememo.controller;
 
+import br.com.rememo.application.pagination.PaginationResult;
+import br.com.rememo.application.pagination.SearchParam;
 import br.com.rememo.application.deck.usecase.CreateDeckUseCase;
+import br.com.rememo.application.deck.usecase.ListDecksUseCase;
 import br.com.rememo.controller.mappers.DeckRestMapper;
+import br.com.rememo.controller.mappers.PaginationRestMapper;
 import br.com.rememo.controller.request.CreateDeckRequest;
 import br.com.rememo.controller.response.DeckDetailsResponse;
+import br.com.rememo.domain.deck.Deck;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/decks")
 public class DeckController {
 
+    private final ListDecksUseCase listDecksUseCase;
     private final CreateDeckUseCase createDeckUseCase;
 
-    public DeckController(CreateDeckUseCase createDeckUseCase) {
+    public DeckController(ListDecksUseCase listDecksUseCase,
+                          CreateDeckUseCase createDeckUseCase) {
+        this.listDecksUseCase = listDecksUseCase;
         this.createDeckUseCase = createDeckUseCase;
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<DeckDetailsResponse>> listDecksAsPage(@RequestParam(value = "search", required = false) List<SearchParam> searchParams,
+                                                                     @PageableDefault(size = 12, sort = {"updatedAt"}, direction = Sort.Direction.DESC) Pageable pageable) {
+        PaginationResult<Deck> response = this.listDecksUseCase
+                .list(PaginationRestMapper.toPaginationQuery(pageable, searchParams));
+
+        return ResponseEntity.ok(new PageImpl<>(
+                response.items().stream().map(DeckRestMapper::toDetails).toList(),
+                pageable,
+                response.totalElements()
+        ));
     }
 
     @PostMapping

@@ -8,5 +8,8 @@ public record CreateDeckRequest(@NotBlank
                                 String name,
 
                                 @Size(max = 500)
-                                String description) {
+                                String description,
+
+                                @Size(max = 60)
+                                String icon) {
 }

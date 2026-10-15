@@ -15,6 +15,7 @@ public class DeckRestMapper {
                 deck.getUuid().toString(),
                 deck.getName(),
                 deck.getDescription(),
+                deck.getIcon(),
                 deck.getCreatedAt(),
                 deck.getUpdatedAt()
         );
@@ -23,7 +24,8 @@ public class DeckRestMapper {
     public static CreateDeckDTO toCreateDeckDTO(CreateDeckRequest request) {
         return new CreateDeckDTO(
                 request.name(),
-                request.description()
+                request.description(),
+                request.icon()
         );
     }
 }

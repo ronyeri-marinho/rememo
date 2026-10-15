@@ -32,6 +32,9 @@ public class DeckEntity {
     @Column(length = 500)
     private String description;
 
+    @Column(length = 60)
+    private String icon;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
@@ -72,6 +75,14 @@ public class DeckEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public UserEntity getUser() {

@@ -1,8 +1,8 @@
 package br.com.rememo.controller;
 
+import br.com.rememo.application.user.usecase.SynchronizeUserUseCase;
 import br.com.rememo.controller.mappers.UserRestMapper;
 import br.com.rememo.controller.response.UserDetailsResponse;
-import br.com.rememo.application.user.usecase.SynchronizeUserUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;

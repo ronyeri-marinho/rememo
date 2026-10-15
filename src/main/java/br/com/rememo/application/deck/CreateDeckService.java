@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CreateDeckService implements CreateDeckUseCase {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(CreateDeckService.class);
     private final GetUserInSessionUseCase getUserInSessionUseCase;
     private final DeckRepositoryPort deckRepositoryPort;
@@ -32,6 +31,7 @@ public class CreateDeckService implements CreateDeckUseCase {
         Deck deck = this.deckRepositoryPort.save(Deck.create(
                 createDeckDTO.name(),
                 createDeckDTO.description(),
+                createDeckDTO.icon(),
                 userInSession
         ));
 

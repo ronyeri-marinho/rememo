@@ -17,6 +17,7 @@ public class DeckPersistenceMapper {
         deck.setUuid(deckEntity.getUuid());
         deck.setName(deckEntity.getName());
         deck.setDescription(deckEntity.getDescription());
+        deck.setIcon(deckEntity.getIcon());
         deck.setCreatedAt(deckEntity.getCreatedAt());
         deck.setUpdatedAt(deckEntity.getUpdatedAt());
         deck.setUser(UserPersistenceMapper.toDomain(deckEntity.getUser()));
@@ -29,6 +30,7 @@ public class DeckPersistenceMapper {
         deckEntity.setUuid(deck.getUuid());
         deckEntity.setName(deck.getName());
         deckEntity.setDescription(deck.getDescription());
+        deckEntity.setIcon(deck.getIcon());
         deckEntity.setCreatedAt(deck.getCreatedAt());
         deckEntity.setUpdatedAt(deck.getUpdatedAt());
         deckEntity.setUser(user);
