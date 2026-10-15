@@ -1,0 +1,2 @@
+ALTER TABLE deck
+    ADD COLUMN icon VARCHAR(60);
