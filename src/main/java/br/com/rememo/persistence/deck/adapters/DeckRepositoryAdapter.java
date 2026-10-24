@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -28,6 +29,12 @@ public class DeckRepositoryAdapter implements DeckRepositoryPort {
                                  DeckRepository deckRepository) {
         this.userRepository = userRepository;
         this.deckRepository = deckRepository;
+    }
+
+    @Override
+    public Optional<Deck> findByUuidAndUserId(UUID uuid, Long userId) {
+        return this.deckRepository.findByUuidAndUserId(uuid, userId)
+                .map(DeckPersistenceMapper::toDomain);
     }
 
     @Override
