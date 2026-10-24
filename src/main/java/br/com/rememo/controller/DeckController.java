@@ -1,9 +1,10 @@
 package br.com.rememo.controller;
 
+import br.com.rememo.application.deck.usecase.CreateDeckUseCase;
+import br.com.rememo.application.deck.usecase.GetDeckUseCase;
+import br.com.rememo.application.deck.usecase.ListDecksUseCase;
 import br.com.rememo.application.pagination.PaginationResult;
 import br.com.rememo.application.pagination.SearchParam;
-import br.com.rememo.application.deck.usecase.CreateDeckUseCase;
-import br.com.rememo.application.deck.usecase.ListDecksUseCase;
 import br.com.rememo.controller.mappers.DeckRestMapper;
 import br.com.rememo.controller.mappers.PaginationRestMapper;
 import br.com.rememo.controller.request.CreateDeckRequest;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,18 +27,30 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/decks")
 public class DeckController {
 
+    private final GetDeckUseCase getDeckUseCase;
     private final ListDecksUseCase listDecksUseCase;
     private final CreateDeckUseCase createDeckUseCase;
 
-    public DeckController(ListDecksUseCase listDecksUseCase,
+    public DeckController(GetDeckUseCase getDeckUseCase,
+                          ListDecksUseCase listDecksUseCase,
                           CreateDeckUseCase createDeckUseCase) {
+        this.getDeckUseCase = getDeckUseCase;
         this.listDecksUseCase = listDecksUseCase;
         this.createDeckUseCase = createDeckUseCase;
+    }
+
+    @GetMapping("/{uuid}")
+    public ResponseEntity<DeckDetailsResponse> getDeckByUuid(@PathVariable String uuid) {
+        DeckDetailsResponse response = DeckRestMapper
+                .toDetails(this.getDeckUseCase.getDeckByUuid(UUID.fromString(uuid)));
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
