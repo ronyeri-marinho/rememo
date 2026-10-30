@@ -59,6 +59,7 @@ class CreateDeckServiceTest {
         assertNotNull(deck.getUuid());
         assertEquals(createDeckDTO.name(), deck.getName());
         assertEquals(createDeckDTO.description(), deck.getDescription());
+        assertEquals(createDeckDTO.icon(), deck.getIcon());
         assertEquals(user.getUuid(), deck.getUser().getUuid());
         assertNotNull(deck.getCreatedAt());
         assertNotNull(deck.getUpdatedAt());
@@ -67,7 +68,8 @@ class CreateDeckServiceTest {
     private CreateDeckDTO setupCreateDeckDTO() {
         return new CreateDeckDTO(
                 "My Awesome Deck",
-                "This is a test for my awesome deck."
+                "This is a test for my awesome deck.",
+                "study"
         );
     }
 }

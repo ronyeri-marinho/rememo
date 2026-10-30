@@ -25,8 +25,6 @@ public class GetDeckService implements GetDeckUseCase {
     public Deck getDeckByUuid(UUID uuid) {
         User userInSession = this.getUserInSessionUseCase.getUserInSession();
         return this.deckRepositoryPort.findByUuidAndUserId(uuid, userInSession.getId())
-                .orElseThrow(() -> new DeckNotFoundException(String.format(
-                        "Deck not found for user. deckId=%s, userId=%s", uuid, userInSession.getUuid())
-                ));
+                .orElseThrow(() -> new DeckNotFoundException(uuid, userInSession.getUuid()));
     }
 }
